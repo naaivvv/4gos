@@ -78,7 +78,7 @@ if (!isset($_SESSION['user_id'])) {
 <body class="bg-stone-100 text-stone-800">
 
     <!-- Top Navigation Bar -->
-    <nav class="bg-white shadow-md">
+    <nav class="bg-white shadow-md sticky top-0 z-10">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="index.php" class="text-xl font-semibold text-stone-700 hover:text-stone-900">PIC18F4550 | ESP32 - 4GOS</a>
             <div class="relative">

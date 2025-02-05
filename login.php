@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="bg-stone-100 text-stone-800">
 
     <!-- Top Navigation Bar -->
-    <nav class="bg-white shadow-sm py-4">
+    <nav class="bg-white shadow-sm py-4 sticky top-0 z-10">
         <div class="container mx-auto px-4">
             <h1 class="text-2xl font-semibold text-stone-700">2025 PIC18F4550 | ESP32 - 4GOS.</h1>
         </div>
