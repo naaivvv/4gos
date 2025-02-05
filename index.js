@@ -18,7 +18,7 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
             const previousState = !state; // Store the previous state before request
         
             // Send state change to the server
-            fetch(`http://192.168.1.128/control?pin=${pin}&state=${state}`)
+            fetch(`http://192.168.0.128/control?pin=${pin}&state=${state}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
