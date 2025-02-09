@@ -73,6 +73,16 @@ if (!isset($_SESSION['user_id'])) {
             text-align: right;
         }
     }
+    .bg-cyan-500 {
+        background-color: var(--color-cyan-500) /* oklch(0.715 0.143 215.221) */;
+    }
+    .hover\:bg-cyan-600 {
+        &:hover {
+            @media (hover: hover) {
+                background-color: var(--color-cyan-600) /* oklch(0.609 0.126 221.723) */;
+            }
+        }
+    }
     </style>
 </head>
 <body class="bg-stone-100 text-stone-800">

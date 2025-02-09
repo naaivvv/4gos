@@ -18,7 +18,7 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
             const previousState = !state; // Store the previous state before request
         
             // Send state change to the server
-            fetch(`http://192.168.3.128/control?pin=${pin}&state=${state}`)
+            fetch(`http://192.168.100.128/control?pin=${pin}&state=${state}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -48,7 +48,22 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
                     }, 100);
                 });
         }
-                            
+
+        function sendSocketStates() {
+            const s1 = document.querySelector("#socket-3").checked ? 1 : 0;
+            const s2 = document.querySelector("#socket-2").checked ? 1 : 0;
+            const s3 = document.querySelector("#socket-1").checked ? 1 : 0;
+            const s4 = document.querySelector("#socket-0").checked ? 1 : 0;
+        
+            fetch("insert_socket_states.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ s1, s2, s3, s4 }) // Correct JSON format
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error("Error:", error));
+        }                          
 
         function updateTable(data) {
             var sensorDataTable = document.getElementById("sensorData");
@@ -310,12 +325,14 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
         }
 
         window.onload = function() {
+            sendSocketStates();
             fetchSensorData();
             fetchChartData();
             fetchStatus();
             fetchESP32Status();
         };
 
+        setInterval(sendSocketStates, 5000);
         setInterval(fetchSensorData, 5000);
         setInterval(fetchChartData, 5000);
         setInterval(fetchStatus, 5000);

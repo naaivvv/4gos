@@ -4,10 +4,12 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    width: 100%;
+    max-width: 300px; /* Set max-width to prevent stretching */
 }
 
 .thermometer-container {
-    width: 300px;
+    width: 100%;
     height: 40px;
     background: #e7e5e4;
     border-radius: 20px;
@@ -33,21 +35,23 @@
     top: 0;
     transition: width 0.5s ease-in-out;
     display: flex;
-    justify-content: center;
     align-items: center;
+    padding-left: 8px;
 }
 
 .temperature-value {
     color: white;
     font-size: 16px;
     font-weight: bold;
+    position: absolute;
+    left: min(90%, calc(100% - 25px)); /* Prevent text overflow */
+    transform: translateX(-50%);
+    transition: opacity 0.3s ease-in-out;
 }
 
 .thermometer-ruler {
-    width: 300px;
+    width: 100%;
     height: 20px;
-    display: flex;
-    justify-content: space-between;
     position: relative;
     margin-top: 5px;
 }
@@ -58,27 +62,29 @@
     height: 2px;
     background: #ccc;
     position: absolute;
-    top: 50%;
+    top: 15%;
     left: 0;
 }
 
 .thermometer-ruler span {
     font-size: 12px;
     color: #555;
-    position: relative;
-    top: 5px;
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-50%);
 }
 
 .thermometer-ruler span::before {
     content: "";
-    width: 2px;
+    width: 1px;
     height: 10px;
     background: #555;
     position: absolute;
-    top: -10px;
+    top: -12px;
     left: 50%;
     transform: translateX(-50%);
 }
+
 </style>
 
 <div class="text-md bold grid grid-cols-1 lg:grid-cols-2 gap-2 px-6">
@@ -143,7 +149,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="thermometer-ruler"></div>
+                                <div class="thermometer-ruler"></div>
                         </div>
 
                     </div>
