@@ -40,13 +40,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - 2025 PIC18F4550 | ESP32 - 4GOS</title>
     <link href="src/output.css" rel="stylesheet">
+    <style>
+    .bg-cyan-600 {
+        background-color: var(--color-cyan-600) /* oklch(0.609 0.126 221.723) */;
+    }
+    .hover\:bg-cyan-700 {
+        &:hover {
+            @media (hover: hover) {
+                background-color: var(--color-cyan-700) /* oklch(0.52 0.105 223.128) */;
+            }
+        }
+    }
+    </style>
 </head>
 <body class="bg-stone-100 text-stone-800">
 
     <!-- Top Navigation Bar -->
-    <nav class="bg-white shadow-sm py-4 sticky top-0 z-10">
-        <div class="container mx-auto px-4">
-            <h1 class="text-2xl font-semibold text-stone-700">2025 PIC18F4550 | ESP32 - 4GOS.</h1>
+    <nav class="bg-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto py-4 px-4">
+            <h1 class="text-xl font-semibold text-stone-700">PIC18F4550 | ESP32 - 4GOS</h1>
         </div>
     </nav>
 
@@ -74,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="password" id="password" name="password" required class="mt-1 block w-full px-3 py-2 border border-stone-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
-                <button type="submit" class="w-full bg-stone-500 text-white py-2 px-4 rounded-md shadow hover:bg-stone-600 transition">Login</button>
+                <button type="submit" class="w-full bg-cyan-600 text-white py-2 px-4 rounded-md shadow hover:bg-cyan-700 transition">Login</button>
 
                 <?php if (isset($error_message)): ?>
                     <div class="mt-4 text-red-500 text-sm text-center">

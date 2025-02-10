@@ -74,6 +74,18 @@ $conn->close();
             dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
         }
     </script>
+    <style>
+    .bg-cyan-600 {
+        background-color: var(--color-cyan-600) /* oklch(0.609 0.126 221.723) */;
+    }
+    .hover\:bg-cyan-700 {
+        &:hover {
+            @media (hover: hover) {
+                background-color: var(--color-cyan-700) /* oklch(0.52 0.105 223.128) */;
+            }
+        }
+    }
+    </style>
     <link href="src/output.css" rel="stylesheet">
 </head>
 <body class="bg-stone-100 min-h-screen flex flex-col">
@@ -141,7 +153,7 @@ $conn->close();
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-stone-500 text-white py-2 px-4 rounded-md shadow hover:bg-stone-600 focus:outline-none focus:ring focus:ring-stone-200">
+                    class="w-full bg-cyan-600 text-white py-2 px-4 rounded-md shadow hover:bg-cyan-700 focus:outline-none focus:ring focus:ring-stone-200">
                     Update
                 </button>
             </form>

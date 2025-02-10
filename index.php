@@ -83,6 +83,37 @@ if (!isset($_SESSION['user_id'])) {
             }
         }
     }
+    .w-12 {
+        width: calc(var(--spacing) * 12) /* 3rem = 48px */;
+    }
+    .h-12 {
+        height: calc(var(--spacing) * 12) /* 3rem = 48px */;
+    }
+    .w-32 {
+        width: calc(var(--spacing) * 32) /* 8rem = 128px */;
+    }
+
+    .h-32 {
+        height: calc(var(--spacing) * 32) /* 8rem = 128px */;
+    }
+
+    .md\:w-40 {
+        @media (width >= 48rem /* 768px */) {
+            width: calc(var(--spacing) * 40) /* 10rem = 160px */;
+        }
+    }
+
+    .md\:h-40 {
+        @media (width >= 48rem /* 768px */) {
+            height: calc(var(--spacing) * 40) /* 10rem = 160px */;
+        }
+    }
+
+    .md\:mt-0 {
+        @media (width >= 48rem /* 768px */) {
+            margin-top: calc(var(--spacing) * 0) /* 0rem = 0px */;
+        }
+    }
     </style>
 </head>
 <body class="bg-stone-100 text-stone-800">
@@ -146,8 +177,8 @@ if (!isset($_SESSION['user_id'])) {
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#clip0_429_11075)"> <path d="M5.63606 18.3639C9.15077 21.8786 14.8493 21.8786 18.364 18.3639C21.8787 14.8492 21.8787 9.1507 18.364 5.63598C14.8493 2.12126 9.15077 2.12126 5.63606 5.63598C3.87757 7.39447 2.99889 9.6996 3.00002 12.0044L3 13.9999" stroke="#292524" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M1 11.9999L3 13.9999L5 11.9999" stroke="#292524" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M11 7.99994L11 12.9999L16 12.9999" stroke="#292524" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> </g> <defs> <clipPath id="clip0_429_11075"> <rect width="24" height="24" fill="white"></rect> </clipPath> </defs> </g></svg>
             Temperature Sensor History
             </h3>
-                <table class="min-w-full text-xs text-stone-700 text-center">
-                    <thead class="bg-stone-100">
+                <table class="min-w-full text-xs text-stone-700 text-center table-fixed">
+                    <thead class="bg-stone-50">
                         <tr>
                             <th class="py-3 px-4 font-semibold">Sensor Name</th>
                             <th class="py-3 px-4 font-semibold">Temperature (°C)</th>

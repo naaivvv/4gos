@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sensor_name = $_POST["sensor_name"];
     $temp = $_POST["temp"];
     $is_fan_on = $_POST["is_fan_on"];
+    $kph = $_POST["kph"];
     $ssid = $_POST['ssid'] ?? 'Unknown';
     $ip = $_POST['ip'] ?? 'Unknown';
 
@@ -21,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert into the `sensor` table
-    $sql_sensor = "INSERT INTO sensor (sensor_name, temp, is_fan_on)
-                   VALUES ('$sensor_name', '$temp', '$is_fan_on')";
+    $sql_sensor = "INSERT INTO sensor (sensor_name, temp, is_fan_on, kph)
+                   VALUES ('$sensor_name', '$temp', '$is_fan_on', '$kph')";
 
     if ($conn->query($sql_sensor) === TRUE) {
         echo "Sensor data inserted successfully.<br>";

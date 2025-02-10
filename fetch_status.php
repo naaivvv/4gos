@@ -25,13 +25,14 @@ if ($result->num_rows > 0) {
     // Check ESP32 connectivity
     if ($espIp !== 'N/A' && isESP32Connected($espIp)) {
         // If ESP32 is connected, fetch sensor data
-        $sql = "SELECT temp, is_fan_on FROM sensor ORDER BY id DESC LIMIT 1";
+        $sql = "SELECT temp, kwh, is_fan_on FROM sensor ORDER BY id DESC LIMIT 1";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             $sensorData = $result->fetch_assoc();
             echo json_encode([
                 'temp' => $sensorData['temp'],
+                'kwh' => $sensorData['kwh'],
                 'is_fan_on' => $sensorData['is_fan_on'],
                 'status' => 'Connected'
             ]);
@@ -43,6 +44,7 @@ if ($result->num_rows > 0) {
 // If ESP32 is disconnected, return empty values
 echo json_encode([
     'temp' => '--',
+    'kwh' => '--',
     'is_fan_on' => '--',
     'status' => 'Disconnected'
 ]);

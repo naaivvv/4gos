@@ -12,6 +12,7 @@ if ($result = $conn->query($sql)) {
             'id' => $row["id"],
             'sensor_name' => $row["sensor_name"],
             'temp' => $row["temp"],
+            'kwh' => $row["kwh"],
             'is_fan_on' => $row["is_fan_on"],
         ];
     }

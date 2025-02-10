@@ -1,7 +1,7 @@
 <?php
 include_once('db_connection.php');
 
-// Calculate the range dynamically (e.g., latest 500 rows)
+// Calculate the range dynamically (e.g., latest 20 rows)
 $total_rows_to_fetch = 20;
 
 // Query to get the maximum id in the table
@@ -12,10 +12,9 @@ $max_id_result->free();
 // Calculate the starting id for the desired range
 $start_id = max(1, $max_id - $total_rows_to_fetch + 1);
 
-// Fetch the latest 500 sensor data entries within the calculated range
+// Fetch the latest sensor data entries within the calculated range
 $sql = "SELECT * FROM `sensor` WHERE `id` BETWEEN $start_id AND $max_id ORDER BY `id` ASC";
 
-// Execute the query and prepare data for Chart.js
 $data = [];
 if ($result = $conn->query($sql)) {
     while ($row = $result->fetch_assoc()) {
@@ -23,9 +22,9 @@ if ($result = $conn->query($sql)) {
             'id' => $row["id"],
             'sensor_name' => $row["sensor_name"],
             'temp' => $row["temp"],
+            'created_at' => date("h:i:s A", strtotime($row["created_at"])) // Format timestamp
         ];
     }
-    // Free the result set
     $result->free();
 }
 

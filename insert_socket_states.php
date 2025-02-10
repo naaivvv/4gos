@@ -3,17 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$servername = "localhost";
-$dbname = "outlet";
-$username = "root";
-$password = "";
-
-// Establish a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
-}
+include_once('db_connection.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
     http_response_code(200);
@@ -61,12 +51,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if ESP32 is reachable
         if ($ip && pingESP32($ip)) {
-            $sql_insert = "INSERT INTO socket (s1, s2, s3, s4) VALUES ('$s1', '$s2', '$s3', '$s4')";
-            
-            if ($conn->query($sql_insert) === TRUE) {
-                echo json_encode(["message" => "Data inserted successfully."]);
+            // Fetch the last recorded state
+            $sql_check = "SELECT s1, s2, s3, s4 FROM socket ORDER BY id DESC LIMIT 1";
+            $result_check = $conn->query($sql_check);
+
+            $lastState = $result_check->fetch_assoc();
+
+            // Compare with the new states
+            if ($lastState && 
+                $lastState['s1'] == $s1 &&
+                $lastState['s2'] == $s2 &&
+                $lastState['s3'] == $s3 &&
+                $lastState['s4'] == $s4) {
+                
+                echo json_encode(["message" => "No changes detected, skipping insertion."]);
             } else {
-                echo json_encode(["error" => "Database Error: " . $conn->error]);
+                // Insert new state only if it is different
+                $sql_insert = "INSERT INTO socket (s1, s2, s3, s4) VALUES ('$s1', '$s2', '$s3', '$s4')";
+                
+                if ($conn->query($sql_insert) === TRUE) {
+                    echo json_encode(["message" => "Data inserted successfully."]);
+                } else {
+                    echo json_encode(["error" => "Database Error: " . $conn->error]);
+                }
             }
         } else {
             echo json_encode(["error" => "ESP32 is unreachable, data not inserted."]);
