@@ -1,3 +1,17 @@
+<style>
+    .text-soft-red{
+        color:#ff6384cc;
+    }
+    .text-soft-blue{
+        color:#36a2ebcc;
+    }
+    .text-soft-yellow{
+        color:#ffce56cc;
+    }
+    .text-soft-teal{
+        color:#4bc0c0cc;
+    }
+</style>
                     <div id="controls w-full place-items-center">
                         <!-- Grid Layout -->
                         <div class="grid grid-cols-2 lg:grid-cols-2 gap-4 place-items-center max-w-xs m-auto">
@@ -17,7 +31,7 @@
                                 </div>
                                 <div class=" absolute bottom-5 left-5">
                                     <span id="outlet-0" class="mt-2 text-stone-800 font-semibold">Socket 1</span><br>
-                                    <span class="text-cyan-600 text-xs font-thin italic">Left most outlet</span>
+                                    <span class="text-soft-red text-xs font-thin italic">Left most outlet</span>
                                 </div>
                             </div>
 
@@ -32,7 +46,7 @@
                             </div>
                                 <div class=" absolute bottom-5 left-5">
                                     <span id="outlet-0" class="mt-2 text-stone-800 font-semibold">Socket 2</span><br>
-                                    <span class="text-cyan-600 text-xs font-thin italic">Second from the left</span>
+                                    <span class="text-soft-blue text-xs font-thin italic">Second from the left</span>
                                 </div>
                             </div>
 
@@ -47,7 +61,7 @@
                             </div>
                                 <div class=" absolute bottom-5 left-5">
                                     <span id="outlet-0" class="mt-2 text-stone-800 font-semibold">Socket 3</span><br>
-                                    <span class="text-cyan-600 text-xs font-thin italic">Third from the series</span>
+                                    <span class="text-soft-yellow text-xs font-thin italic">Third from the series</span>
                                 </div>
                             </div>
 
@@ -62,7 +76,7 @@
                             </div>
                                 <div class=" absolute bottom-5 left-5">
                                     <span id="outlet-0" class="mt-2 text-stone-800 font-semibold">Socket 4</span><br>
-                                    <span class="text-cyan-600 text-xs font-thin italic">Right most outlet</span>
+                                    <span class="text-soft-teal text-xs font-thin italic">Right most outlet</span>
                                 </div>
                             </div>
                         </div>

@@ -37,6 +37,11 @@ if (!isset($_SESSION['user_id'])) {
         .slider.round:before {border-radius: 50%;}
         .slider::after {content: ""; position: absolute; width: 18px; height: 18px; left: 8px; bottom: 8px; background: url('data:image/svg+xml,%3Csvg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="%23292524"%3E%3Cg id="SVGRepo_bgCarrier" stroke-width="0"%3E%3C/g%3E%3Cg id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"%3E%3C/g%3E%3Cg id="SVGRepo_iconCarrier"%3E %3Cg style="fill:none;stroke:%23292524;stroke-width:12px;stroke-linecap:round;stroke-linejoin:round;"%3E %3Cpath d="m 50,10 0,35"%3E%3C/path%3E %3Cpath d="M 26,20 C -3,48 16,90 51,90 79,90 89,67 89,52 89,37 81,26 74,20"%3E%3C/path%3E %3C/g%3E %3C/g%3E%3C/svg%3E') no-repeat center; background-size: contain; transition: .4s;}
         input:checked + .slider::after {transform: translateX(26px);}
+        .lg\:grid-cols-3 {
+            @media (width >= 64rem /* 1024px */) {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
         .lg\:col-span-3 {
             @media (width >= 64rem /* 1024px */) {
                 grid-column: span 3 / span 3;
@@ -114,6 +119,13 @@ if (!isset($_SESSION['user_id'])) {
             margin-top: calc(var(--spacing) * 0) /* 0rem = 0px */;
         }
     }
+    .text-4xl {
+        font-size: var(--text-4xl) /* 2.25rem = 36px */;
+        line-height: var(--tw-leading, var(--text-4xl--line-height) /* calc(2.5 / 2.25) ≈ 1.1111 */);
+    }
+    .text-stone-400 {
+        color: var(--color-stone-400) /* oklch(0.709 0.01 56.259) = #a6a09b */;
+    }
     </style>
 </head>
 <body class="bg-stone-100 text-stone-800">
@@ -121,7 +133,10 @@ if (!isset($_SESSION['user_id'])) {
     <!-- Top Navigation Bar -->
     <nav class="bg-white shadow-md sticky top-0 z-10">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.php" class="text-xl font-semibold text-stone-700 hover:text-stone-900">PIC18F4550 | ESP32 - 4GOS</a>
+            <a href="index.php" class="text-xl font-semibold text-stone-700 hover:text-stone-900 flex justify-center items-center gap-2">
+            <svg fill="#000000" viewBox="0 0 24 24" id="processor" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line h-8 w-8 inline"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M17,6H7A1,1,0,0,0,6,7V17a1,1,0,0,0,1,1H17a1,1,0,0,0,1-1V7A1,1,0,0,0,17,6Zm-3,8H10V10h4Z" style="fill: #2ca9bc; stroke-width: 2;"></path><path id="primary" d="M12,6V3m4,3V4M8,6V4m10,8h3m-3,4h2M18,8h2M12,18v3M8,18v2m8-2v2M6,12H3M6,8H4m2,8H4m14,1V7a1,1,0,0,0-1-1H7A1,1,0,0,0,6,7V17a1,1,0,0,0,1,1H17A1,1,0,0,0,18,17Zm-4-7H10v4h4Z" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>
+                PIC18F4550 | ESP32 - 4GOS
+            </a>
             <div class="relative">
                 <button class="flex items-center text-stone-600 hover:text-stone-800 focus:outline-none" onclick="toggleDropdown()">
                     <span class="mr-2"><?php echo $_SESSION['username']; ?></span>
@@ -170,9 +185,9 @@ if (!isset($_SESSION['user_id'])) {
 
 
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-8">
             <!-- Sensor Data Table -->
-            <div class="bg-white shadow-sm rounded-md p-4 overflow-x-auto">
+            <div class="bg-white shadow-sm rounded-md p-4 overflow-x-auto col-span-1 lg:col-span-1">
             <h3 class="text-xl font-semibold text-stone-800 flex items-center gap-2 mb-6">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#clip0_429_11075)"> <path d="M5.63606 18.3639C9.15077 21.8786 14.8493 21.8786 18.364 18.3639C21.8787 14.8492 21.8787 9.1507 18.364 5.63598C14.8493 2.12126 9.15077 2.12126 5.63606 5.63598C3.87757 7.39447 2.99889 9.6996 3.00002 12.0044L3 13.9999" stroke="#292524" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M1 11.9999L3 13.9999L5 11.9999" stroke="#292524" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M11 7.99994L11 12.9999L16 12.9999" stroke="#292524" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> </g> <defs> <clipPath id="clip0_429_11075"> <rect width="24" height="24" fill="white"></rect> </clipPath> </defs> </g></svg>
             Temperature Sensor History
@@ -191,7 +206,7 @@ if (!isset($_SESSION['user_id'])) {
             </div>
 
             <!-- Chart -->
-            <div class="bg-white shadow-sm rounded-md p-4">
+            <div class="bg-white shadow-sm rounded-md p-4 col-span-1 lg:col-span-2">
             <h3 class="text-xl font-semibold text-stone-800 flex items-center gap-2 mb-6">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 5V19C4 19.5523 4.44772 20 5 20H19" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M18 9L13 13.9999L10.5 11.4998L7 14.9998" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             Temperature Sensor Graph

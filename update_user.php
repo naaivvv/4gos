@@ -93,7 +93,10 @@ $conn->close();
     <!-- Top Navigation Bar -->
     <nav class="bg-white shadow-md sticky top-0 z-10">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.php" class="text-xl font-semibold text-stone-800 hover:text-stone-600">PIC18F4550 | ESP32 - 4GOS</a>
+            <a href="index.php" class="text-xl font-semibold text-stone-700 hover:text-stone-900 flex justify-center items-center gap-2">
+            <svg fill="#000000" viewBox="0 0 24 24" id="processor" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line h-8 w-8 inline"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="secondary" d="M17,6H7A1,1,0,0,0,6,7V17a1,1,0,0,0,1,1H17a1,1,0,0,0,1-1V7A1,1,0,0,0,17,6Zm-3,8H10V10h4Z" style="fill: #2ca9bc; stroke-width: 2;"></path><path id="primary" d="M12,6V3m4,3V4M8,6V4m10,8h3m-3,4h2M18,8h2M12,18v3M8,18v2m8-2v2M6,12H3M6,8H4m2,8H4m14,1V7a1,1,0,0,0-1-1H7A1,1,0,0,0,6,7V17a1,1,0,0,0,1,1H17A1,1,0,0,0,18,17Zm-4-7H10v4h4Z" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path></g></svg>
+                PIC18F4550 | ESP32 - 4GOS
+            </a>
             <div class="relative">
                 <button class="flex items-center space-x-2 text-stone-600 hover:text-stone-800 focus:outline-none" onclick="toggleDropdown()">
                     <span class="text-sm font-medium"> <?php echo $_SESSION['username']; ?> </span>

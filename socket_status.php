@@ -84,7 +84,6 @@
     left: 50%;
     transform: translateX(-50%);
 }
-
 </style>
 
 <div class="text-md bold grid grid-cols-1 lg:grid-cols-2 gap-2 px-6">
@@ -118,7 +117,7 @@
                     <div class="flex flex-col items-center w-full">
                         <!-- Power Status Section -->
                         <div class="w-full text-center">
-                            <h4 class="power-status text-5xl font-bold flex items-center justify-center">
+                            <h4 class="power-status text-4xl font-bold flex items-center justify-center">
                                 <svg class="h-12 w-12 mr-2" viewBox="-2 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#0891b2">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -133,12 +132,17 @@
                                         </g>
                                     </g>
                                 </svg>
-                                <span class="kwh-status">-- kWh</span>
+                                <span class="kwh-status">---- kWh</span>
                             </h4>
+                            <p class="text-stone-400 italic text-sm text-center">
+                                <span class="voltage-status inline-block">-- V</span><br>
+                                <span class="current-status inline-block">-- A</span>
+                            </p>
+                            
                         </div>
 
                         <!-- Donut Chart Section -->
-                        <div class=" mt-4">
+                        <div class=" mt-2">
                             <canvas id="socketChart"></canvas>
                         </div>
                     </div>
