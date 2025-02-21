@@ -185,18 +185,20 @@ if (!isset($_SESSION['user_id'])) {
 
 
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 pt-8">
             <!-- Sensor Data Table -->
-            <div class="bg-white shadow-sm rounded-md p-4 overflow-x-auto col-span-1 lg:col-span-1">
+            <div class="bg-white shadow-sm rounded-md p-4 overflow-x-auto col-span-1 lg:col-span-2">
             <h3 class="text-xl font-semibold text-stone-800 flex items-center gap-2 mb-6">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#clip0_429_11075)"> <path d="M5.63606 18.3639C9.15077 21.8786 14.8493 21.8786 18.364 18.3639C21.8787 14.8492 21.8787 9.1507 18.364 5.63598C14.8493 2.12126 9.15077 2.12126 5.63606 5.63598C3.87757 7.39447 2.99889 9.6996 3.00002 12.0044L3 13.9999" stroke="#292524" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M1 11.9999L3 13.9999L5 11.9999" stroke="#292524" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M11 7.99994L11 12.9999L16 12.9999" stroke="#292524" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> </g> <defs> <clipPath id="clip0_429_11075"> <rect width="24" height="24" fill="white"></rect> </clipPath> </defs> </g></svg>
-            Temperature Sensor History
+            Sensor Data History
             </h3>
                 <table class="min-w-full text-xs text-stone-700 text-center table-fixed">
                     <thead class="bg-stone-50">
                         <tr>
                             <th class="py-3 px-4 font-semibold">Sensor Name</th>
                             <th class="py-3 px-4 font-semibold">Temperature (°C)</th>
+                            <th class="py-3 px-4 font-semibold">Voltage (V)</th>
+                            <th class="py-3 px-4 font-semibold">Current (A)</th>
                         </tr>
                     </thead>
                     <tbody id="sensorData" class="divide-y divide-stone-200">
@@ -206,7 +208,7 @@ if (!isset($_SESSION['user_id'])) {
             </div>
 
             <!-- Chart -->
-            <div class="bg-white shadow-sm rounded-md p-4 col-span-1 lg:col-span-2">
+            <div class="bg-white shadow-sm rounded-md p-4 col-span-1 lg:col-span-3">
             <h3 class="text-xl font-semibold text-stone-800 flex items-center gap-2 mb-6">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 5V19C4 19.5523 4.44772 20 5 20H19" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M18 9L13 13.9999L10.5 11.4998L7 14.9998" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             Temperature Sensor Graph

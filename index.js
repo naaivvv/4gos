@@ -88,6 +88,8 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
                 row.innerHTML = `
                     <td class='py-2 px-4'>${item.sensor_name}</td>
                     <td class='py-2 px-4'>${item.temp}</td>
+                    <td class='py-2 px-4'>${item.voltage}</td>
+                    <td class='py-2 px-4'>${item.current}</td>
                 `;
                 sensorDataTable.appendChild(row);
             });
@@ -268,7 +270,7 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
                             <span style="color: ${
                                 data.is_fan_on == 1 ? '#22c55e' : '#ef4444'
                             }">${fanStatus}</span>`;
-                            kwhElement.textContent = `${Math.floor(data.kwh)} kWh`;
+                            kwhElement.textContent = `${Math.floor(data.energy)} kWh`;
                             voltageElement.textContent = `${data.voltage} V`;
                             currentElement.textContent = `${data.current} A`;
                     } else {

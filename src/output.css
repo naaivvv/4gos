@@ -752,9 +752,6 @@
   .mb-6 {
     margin-bottom: calc(var(--spacing) * 6);
   }
-  .ml-12 {
-    margin-left: calc(var(--spacing) * 12);
-  }
   .box-border {
     box-sizing: border-box;
   }
@@ -886,9 +883,6 @@
   }
   .min-h-screen {
     min-height: 100vh;
-  }
-  .w-1 {
-    width: calc(var(--spacing) * 1);
   }
   .w-1\/2 {
     width: calc(1/2 * 100%);
@@ -2028,9 +2022,6 @@
   .text-red-800 {
     color: var(--color-red-800);
   }
-  .text-stone-300 {
-    color: var(--color-stone-300);
-  }
   .text-stone-400 {
     color: var(--color-stone-400);
   }
@@ -2519,13 +2510,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-stone-100);
-      }
-    }
-  }
-  .hover\:text-stone-600 {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-stone-600);
       }
     }
   }
