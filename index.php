@@ -21,10 +21,20 @@ if (!isset($_SESSION['user_id'])) {
         #dropdownMenu {
             transition: all 0.3s ease;
         }
-        table tbody tr:first-child {
+        table tbody tr:first-child #temp_tb {
             font-weight: bold;
             font-size:x-large;
             color:#00acc1;
+        }
+        table tbody tr:first-child #voltage_tb {
+            font-weight: bold;
+            font-size:x-large;
+            color:#ff6384cc;
+        }
+        table tbody tr:first-child #current_tb {
+            font-weight: bold;
+            font-size:x-large;
+            color:#ffce56cc;
         }
         .switch {position: relative; display: inline-block; width: 60px; height: 34px;}
         .switch input {opacity: 0; width: 0; height: 0;}
@@ -211,10 +221,13 @@ if (!isset($_SESSION['user_id'])) {
             <div class="bg-white shadow-sm rounded-md p-4 col-span-1 lg:col-span-3">
             <h3 class="text-xl font-semibold text-stone-800 flex items-center gap-2 mb-6">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 5V19C4 19.5523 4.44772 20 5 20H19" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M18 9L13 13.9999L10.5 11.4998L7 14.9998" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-            Temperature Sensor Graph
+            Sensor Graphs
             </h3>
                 <div class="line-chart">
-                    <canvas id="chartCanvas"></canvas>
+                <canvas id="chartCanvasTemp"></canvas>
+                <canvas id="chartCanvasVoltage"></canvas>
+                <canvas id="chartCanvasCurrent"></canvas>
+
                 </div>
             </div>
 

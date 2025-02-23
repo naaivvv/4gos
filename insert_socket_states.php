@@ -28,9 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $inputJSON = file_get_contents('php://input');
     $input = json_decode($inputJSON, true);
 
-    // Debugging: Log received data
-    file_put_contents('debug.log', print_r($input, true));
-
     if (!$input) {
         echo json_encode(["error" => "Invalid JSON received"]);
         exit();

@@ -1,5 +1,3 @@
-var ctx = document.getElementById('chartCanvas').getContext('2d');
-        var myChart;
 
         function fetchSensorData() {
             var xhr = new XMLHttpRequest();
@@ -87,157 +85,115 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
                 var row = document.createElement("tr");
                 row.innerHTML = `
                     <td class='py-2 px-4'>${item.sensor_name}</td>
-                    <td class='py-2 px-4'>${item.temp}</td>
-                    <td class='py-2 px-4'>${item.voltage}</td>
-                    <td class='py-2 px-4'>${item.current}</td>
+                    <td class='py-2 px-4' id='temp_tb'>${item.temp}</td>
+                    <td class='py-2 px-4' id='voltage_tb'>${item.voltage}</td>
+                    <td class='py-2 px-4' id='current_tb'>${item.current}</td>
                 `;
                 sensorDataTable.appendChild(row);
             });
         }
 
-        function fetchChartData() {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    var data = JSON.parse(this.responseText);
-                    var sensorTitle = data.length > 0 ? data[0].sensor_name : "Unknown Sensor";
-                    updateChart(data, sensorTitle);
-                }
-            };
-            xhr.open("GET", "fetch_chart_data.php", true);
-            xhr.send();
+function fetchChartData() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var data = JSON.parse(this.responseText);
+            var sensorTitle = data.length > 0 ? data[0].sensor_name : "Unknown Sensor";
+            updateCharts(data, sensorTitle);
         }
+    };
+    xhr.open("GET", "fetch_chart_data.php", true);
+    xhr.send();
+}
 
-        function updateChart(data, sensorTitle) {
-            var tempData = data.map(item => item.temp);
-            var labels = data.map(item => item.created_at);
+// Declare global chart instances
+var tempChart = null;
+var voltageChart = null;
+var currentChart = null;
 
-            // If the chart already exists, destroy it before creating a new one
-            if (window.myChart) {
-                window.myChart.destroy();
-            }
+function updateCharts(data, sensorTitle) {
+    var labels = data.map(item => item.created_at);
+    var tempData = data.map(item => item.temp);
+    var voltageData = data.map(item => item.voltage);
+    var currentData = data.map(item => item.current);
 
-            // Get the canvas context
-            var ctx = document.getElementById('chartCanvas').getContext('2d');
+    tempChart = createChart('chartCanvasTemp', 'Temperature (°C)', labels, tempData, 'rgba(75, 192, 192, 1)', 'rgba(75, 192, 192, 0)', tempChart);
+    voltageChart = createChart('chartCanvasVoltage', 'Voltage (V)', labels, voltageData, 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0)', voltageChart);
+    currentChart = createChart('chartCanvasCurrent', 'Current (A)', labels, currentData, 'rgba(255, 206, 86, 1)', 'rgba(255, 206, 86, 0)', currentChart);
+}
 
-            // Create a gradient for the line
-            var gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(75, 192, 192, 1)'); // Starting color
-            gradient.addColorStop(1, 'rgba(75, 192, 192, 0)'); // Fading color
+function createChart(canvasId, label, labels, data, borderColor, fadeColor, existingChart) {
+    // ✅ Properly destroy existing chart before creating a new one
+    if (existingChart) {
+        existingChart.destroy();
+    }
 
-            // Create the chart
-            window.myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Temperature (°C)',
-                        data: tempData,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: gradient,
-                        fill: true, // Fill area under the curve
-                        tension: 0.4, // Make the line more wavy
-                        pointRadius: 4, // Highlight points
-                        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-                        hoverBorderColor: 'rgba(0, 128, 255, 1)', // Add hover interaction for points
-                        hoverBorderWidth: 2
-                    }]
+    var ctx = document.getElementById(canvasId).getContext('2d');
+    var gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, borderColor);
+    gradient.addColorStop(1, fadeColor);
+
+    return new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data,
+                borderColor: borderColor,
+                backgroundColor: gradient,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: borderColor,
+                hoverBorderColor: 'rgba(0, 128, 255, 1)',
+                hoverBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: {
+                duration: 1500,
+                easing: 'easeOutQuart',
+                animations: {
+                    opacity: { from: 0, to: 1, easing: 'easeOutQuart', duration: 1500 },
+                    y: { easing: 'easeOutQuart', duration: 1500 }
+                }
+            },
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                title: {
+                    display: true,
+                    text: label,
+                    font: { size: 18, weight: 'bold' },
+                    padding: { top: 10, bottom: 20 }
                 },
-                options: {
-                    responsive: true,
-                    animation: {
-                        duration: 1500, // Smooth fade duration
-                        easing: 'easeOutQuart', // Easing for smooth transitions
-                        animations: {
-                            opacity: {
-                                from: 0, // Fade in from 0 opacity
-                                to: 1,
-                                easing: 'easeOutQuart',
-                                duration: 1500
-                            },
-                            y: {
-                                easing: 'easeOutQuart',
-                                duration: 1500
-                            }
-                        }
-                    },
-                    interaction: {
-                        mode: 'index',
-                        intersect: false // Highlight nearest data point
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: sensorTitle,
-                            font: {
-                                size: 18,
-                                weight: 'bold'
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 20
-                            }
-                        },
-                        tooltip: {
-                            enabled: true,
-                            backgroundColor: 'rgba(0,0,0,0.7)', // Dark tooltip background
-                            bodyFont: {
-                                size: 14
-                            },
-                            titleFont: {
-                                size: 16
-                            },
-                            padding: 10,
-                            callbacks: {
-                                label: function (context) {
-                                    return `Temp: ${context.raw}°C`; // Customize tooltip text
-                                }
-                            }
-                        },
-                        legend: {
-                            display: true,
-                            labels: {
-                                usePointStyle: true, // Use circular point styles
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Timestamp',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold'
-                                }
-                            },
-                            grid: {
-                                display: false // Remove x-axis grid lines
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Temperature (°C)',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold'
-                                }
-                            },
-                            grid: {
-                                color: 'rgba(200, 200, 200, 0.5)' // Light gray grid lines
-                            },
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(0,0,0,0.7)',
+                    bodyFont: { size: 14 },
+                    titleFont: { size: 16 },
+                    padding: 10,
+                    callbacks: { label: function (context) { return `${label}: ${context.raw}`; } }
+                },
+                legend: { display: true, labels: { usePointStyle: true, font: { size: 14 } } }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Timestamp', font: { size: 14, weight: 'bold' } },
+                    grid: { display: false }
+                },
+                y: {
+                    title: { display: true, text: label, font: { size: 14, weight: 'bold' } },
+                    grid: { color: 'rgba(200, 200, 200, 0.5)' },
+                    ticks: { beginAtZero: true }
                 }
-            });
+            }
         }
+    });
+}
+
+
 
         let currentTemp = 0;
         function fetchStatus() {
@@ -270,9 +226,9 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
                             <span style="color: ${
                                 data.is_fan_on == 1 ? '#22c55e' : '#ef4444'
                             }">${fanStatus}</span>`;
-                            kwhElement.textContent = `${Math.floor(data.energy)} kWh`;
-                            voltageElement.textContent = `${data.voltage} V`;
-                            currentElement.textContent = `${data.current} A`;
+                            kwhElement.textContent = `${parseFloat(data.energy).toFixed(4)} kWh`;
+                            voltageElement.textContent = `${parseFloat(data.voltage).toFixed(2)} V`;
+                            currentElement.textContent = `${parseFloat(data.current).toFixed(2)} A`;
                     } else {
                         // If ESP32 is disconnected, show "--" but keep the SVG
                         temperatureElement.innerHTML = "--°C";
@@ -352,7 +308,7 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
                 .catch(error => console.error("Error fetching socket data:", error));
         }
 
-        function createChart(data) {
+        function createDoughnutChart(data) {
             const ctx = document.getElementById('socketChart').getContext('2d');
         
             // Calculate total usage
@@ -434,7 +390,7 @@ var ctx = document.getElementById('chartCanvas').getContext('2d');
                 socketChart.data.datasets[0].data = [data.s1, data.s2, data.s3, data.s4];
                 socketChart.update(); // Refresh chart data
             } else {
-                createChart(data);
+                createDoughnutChart(data);
             }
         }
         

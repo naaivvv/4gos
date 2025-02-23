@@ -2,7 +2,7 @@
 include_once('db_connection.php');
 
 // Fetch the latest 500 sensor data entries
-$sql = "SELECT * FROM `sensor` ORDER BY id DESC LIMIT 10";
+$sql = "SELECT * FROM `sensor` ORDER BY id DESC LIMIT 36";
 
 // Execute the query and prepare data for Chart.js
 $data = [];
