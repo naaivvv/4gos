@@ -12,70 +12,76 @@
         }
 
         let lastStates = { s1: null, s2: null, s3: null, s4: null };
+let isUpdating = false; // Lock flag to prevent conflicts
 
-        function sendState(pin, state) {
-            const toggleSwitch = event.target;
-            const previousState = !state;
-        
-            fetch(`http://192.168.100.128/control?pin=${pin}&state=${state}`)
-                .then(response => {
-                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                    return response.text();
-                })
-                .then(feedback => {
-                    console.log(feedback);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert(`Failed to update outlet. ${error.message}`);
-                    setTimeout(() => { toggleSwitch.checked = previousState; }, 100);
-                });
+function sendState(pin, state) {
+    const toggleSwitch = event.target;
+    const previousState = !state;
+
+    isUpdating = true; // Lock updates temporarily
+
+    // 1️⃣ Insert new state into database first
+    const socketStates = {
+        s1: document.querySelector("#socket-3").checked ? 1 : 0,
+        s2: document.querySelector("#socket-2").checked ? 1 : 0,
+        s3: document.querySelector("#socket-1").checked ? 1 : 0,
+        s4: document.querySelector("#socket-0").checked ? 1 : 0,
+    };
+
+    fetch("insert_socket_states.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(socketStates),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Database update response:", data);
+
+        if (data.error) {
+            alert("Database update failed: " + data.error);
+            toggleSwitch.checked = previousState; // Revert toggle on failure
+            isUpdating = false;
+            return;
         }
-        
-        function sendSocketStates() {
-            const s1 = document.querySelector("#socket-3").checked ? 1 : 0;
-            const s2 = document.querySelector("#socket-2").checked ? 1 : 0;
-            const s3 = document.querySelector("#socket-1").checked ? 1 : 0;
-            const s4 = document.querySelector("#socket-0").checked ? 1 : 0;
-        
-            const newStates = { s1, s2, s3, s4 };
-        
-            if (JSON.stringify(lastStates) !== JSON.stringify(newStates)) {
-                fetch("insert_socket_states.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(newStates)
-                })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error("Error:", error));
-        
-                lastStates = newStates;
+
+        // 2️⃣ After successful DB insert, send request to ESP32
+        return fetch(`http://192.168.100.128/control?pin=${pin}&state=${state}`);
+    })
+    .then(response => {
+        if (response && !response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        return response ? response.text() : null;
+    })
+    .then(feedback => {
+        console.log("ESP32 response:", feedback);
+        setTimeout(() => { isUpdating = false; }, 2000); // Unlock after 2 seconds
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert(`Failed to update outlet. ${error.message}`);
+        setTimeout(() => { toggleSwitch.checked = previousState; }, 100);
+        isUpdating = false;
+    });
+}
+
+// Fetch latest states, but prevent overwriting if manual toggle is active
+function fetchLatestStates() {
+    if (isUpdating) return;
+
+    fetch("fetch_latest_states.php")
+        .then(response => response.json())
+        .then(data => {
+            if (JSON.stringify(lastStates) !== JSON.stringify(data)) {
+                lastStates = data;
+
+                // Ensure the correct mapping of database values to HTML elements
+                document.querySelector("#socket-3").checked = Boolean(Number(data.s1));
+                document.querySelector("#socket-2").checked = Boolean(Number(data.s2));
+                document.querySelector("#socket-1").checked = Boolean(Number(data.s3));
+                document.querySelector("#socket-0").checked = Boolean(Number(data.s4));
             }
-        }
-        
-        // 🟢 Function to fetch latest states from the database and update toggles
-        function fetchLatestStates() {
-            fetch("fetch_latest_states.php")
-                .then(response => response.json())
-                .then(data => {
-                    if (JSON.stringify(lastStates) !== JSON.stringify(data)) {
-                        lastStates = data;
-        
-                        // Ensure the correct mapping of database values to HTML elements
-                        document.querySelector("#socket-3").checked = Boolean(Number(data.s1));
-                        document.querySelector("#socket-2").checked = Boolean(Number(data.s2));
-                        document.querySelector("#socket-1").checked = Boolean(Number(data.s3));
-                        document.querySelector("#socket-0").checked = Boolean(Number(data.s4));
-        
-                        // Send state once to the /control endpoint
-                        for (let pin = 0; pin < 4; pin++) {
-                            sendState(pin, data[`s${pin + 1}`]); 
-                        }
-                    }
-                })
-                .catch(error => console.error("Error fetching states:", error));
-        }        
+        })
+        .catch(error => console.error("Error fetching states:", error));
+}    
                         
         function updateTable(data) {
             var sensorDataTable = document.getElementById("sensorData");
@@ -400,7 +406,6 @@ function createChart(canvasId, label, labels, data, borderColor, fadeColor, exis
         }
 
         window.onload = function() {
-            sendSocketStates();
             fetchSensorData();
             fetchChartData();
             fetchStatus();
@@ -409,7 +414,6 @@ function createChart(canvasId, label, labels, data, borderColor, fadeColor, exis
         };
 
         setInterval(fetchLatestStates, 5000);
-        setInterval(sendSocketStates, 5000);
         setInterval(fetchSensorData, 5000);
         setInterval(fetchChartData, 5000);
         setInterval(fetchStatus, 5000);
