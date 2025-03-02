@@ -413,9 +413,9 @@ function createChart(canvasId, label, labels, data, borderColor, fadeColor, exis
             fetchSocketStats();
         };
 
-        setInterval(fetchLatestStates, 5000);
-        setInterval(fetchSensorData, 5000);
-        setInterval(fetchChartData, 5000);
-        setInterval(fetchStatus, 5000);
-        setInterval(fetchESP32Status, 5000);
-        setInterval(fetchSocketStats, 5000);
+        setInterval(fetchLatestStates, 3000);
+        setInterval(fetchSensorData, 3000);
+        setInterval(fetchChartData, 3000);
+        setInterval(fetchStatus, 3000);
+        setInterval(fetchESP32Status, 3000);
+        setInterval(fetchSocketStats, 3000);
